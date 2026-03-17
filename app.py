@@ -74,10 +74,10 @@ if run:
     with st.spinner(f"Downloading {ticker} data..."):
         data = get_data(ticker, period)
     if data.empty:
-        st.error("âŒ No data found. Check the ticker symbol.")
+        st.error("No data found. Check the ticker symbol.")
         st.stop()
     if len(data) < 60:
-        st.warning("âš ï¸ Not enough data for this period. Please select 6mo or longer for best results.")
+        st.warning("Not enough data for this period. Please select 6mo or longer for best results.")
         st.stop()
     with st.spinner("Calculating indicators..."):
         data    = add_indicators(data)
@@ -156,4 +156,4 @@ if run:
     c1.download_button("Download Full Data (CSV)", data=data.to_csv().encode("utf-8"), file_name=f"{ticker}_data.csv", mime="text/csv", use_container_width=True)
     c2.download_button("Download Signals (CSV)", data=signals.to_csv().encode("utf-8"), file_name=f"{ticker}_signals.csv", mime="text/csv", use_container_width=True)
 else:
-    st.info("ðŸ‘ˆ Enter a ticker in the sidebar and click **Run Analysis** to start.")
+    st.info("Enter a ticker in the sidebar and click Run Analysis to start.")
