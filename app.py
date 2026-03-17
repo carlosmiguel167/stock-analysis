@@ -7,12 +7,12 @@ import ta
 import warnings
 warnings.filterwarnings("ignore")
 
-st.set_page_config(page_title="Stock Technical Analysis", page_icon="📈", layout="wide")
-st.title("📈 Stock Technical Analysis Dashboard")
-st.markdown("Built with Python · `yfinance` · `ta` · `plotly` · `streamlit`")
+st.set_page_config(page_title="Stock Technical Analysis", page_icon="ðŸ“ˆ", layout="wide")
+st.title("ðŸ“ˆ Stock Technical Analysis Dashboard")
+st.markdown("Built with Python Â· `yfinance` Â· `ta` Â· `plotly` Â· `streamlit`")
 st.divider()
 
-st.sidebar.header("⚙️ Settings")
+st.sidebar.header("âš™ï¸ Settings")
 ticker = st.sidebar.text_input("Stock Ticker", value="AAPL").upper()
 period = st.sidebar.selectbox("Time Period", options=["1mo", "3mo", "6mo", "1y", "2y"], index=3)
 st.sidebar.divider()
@@ -21,7 +21,7 @@ show_sma    = st.sidebar.checkbox("SMA 20 / 50",     value=True)
 show_ema    = st.sidebar.checkbox("EMA 20",          value=True)
 show_bb     = st.sidebar.checkbox("Bollinger Bands", value=True)
 show_volume = st.sidebar.checkbox("Volume",          value=True)
-run = st.sidebar.button("🚀 Run Analysis", use_container_width=True)
+run = st.sidebar.button("ðŸš€ Run Analysis", use_container_width=True)
 
 @st.cache_data
 def get_data(ticker, period):
@@ -74,7 +74,10 @@ if run:
     with st.spinner(f"Downloading {ticker} data..."):
         data = get_data(ticker, period)
     if data.empty:
-        st.error("❌ No data found. Check the ticker symbol.")
+        st.error("âŒ No data found. Check the ticker symbol.")
+        st.stop()
+    if len(data) < 60:
+        st.warning("âš ï¸ Not enough data for this period. Please select 6mo or longer for best results.")
         st.stop()
     with st.spinner("Calculating indicators..."):
         data    = add_indicators(data)
@@ -85,7 +88,7 @@ if run:
     sma50_val = float(latest["SMA_50"])
     rsi_val   = float(latest["RSI"])
     vol_ratio = float(latest["Volume_Ratio"])
-    st.subheader(f"📊 {ticker} Snapshot")
+    st.subheader(f"ðŸ“Š {ticker} Snapshot")
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Close Price",  f"${close_val:.2f}")
     c2.metric("SMA 20",       f"${sma20_val:.2f}")
@@ -139,18 +142,18 @@ if run:
                       legend=dict(orientation="h", y=-0.05), margin=dict(l=20, r=20, t=40, b=20))
     st.plotly_chart(fig, use_container_width=True)
     st.divider()
-    st.subheader("🚦 Detected Signals")
+    st.subheader("ðŸš¦ Detected Signals")
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("#### 🟢 Buy Signals")
+        st.markdown("#### ðŸŸ¢ Buy Signals")
         st.dataframe(buys[["Close","Type"]].tail(10).sort_index(ascending=False), use_container_width=True)
     with col2:
-        st.markdown("#### 🔴 Sell Signals")
+        st.markdown("#### ðŸ”´ Sell Signals")
         st.dataframe(sells[["Close","Type"]].tail(10).sort_index(ascending=False), use_container_width=True)
     st.divider()
-    st.subheader("📥 Export Data")
+    st.subheader("ðŸ“¥ Export Data")
     c1, c2 = st.columns(2)
-    c1.download_button("⬇️ Download Full Data (CSV)", data=data.to_csv().encode("utf-8"), file_name=f"{ticker}_data.csv", mime="text/csv", use_container_width=True)
-    c2.download_button("⬇️ Download Signals (CSV)", data=signals.to_csv().encode("utf-8"), file_name=f"{ticker}_signals.csv", mime="text/csv", use_container_width=True)
+    c1.download_button("â¬‡ï¸ Download Full Data (CSV)", data=data.to_csv().encode("utf-8"), file_name=f"{ticker}_data.csv", mime="text/csv", use_container_width=True)
+    c2.download_button("â¬‡ï¸ Download Signals (CSV)", data=signals.to_csv().encode("utf-8"), file_name=f"{ticker}_signals.csv", mime="text/csv", use_container_width=True)
 else:
-    st.info("👈 Enter a ticker in the sidebar and click **Run Analysis** to start.")
+    st.info("ðŸ‘ˆ Enter a ticker in the sidebar and click **Run Analysis** to start.")
