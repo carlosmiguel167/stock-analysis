@@ -9,10 +9,10 @@ warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="Stock Technical Analysis", page_icon="chart_with_upwards_trend", layout="wide")
 st.title("Stock Technical Analysis Dashboard")
-st.markdown("Built with Python Â· `yfinance` Â· `ta` Â· `plotly` Â· `streamlit`")
+st.markdown("Built with Python | yfinance | ta | plotly | streamlit")
 st.divider()
 
-st.sidebar.header("âš™ï¸ Settings")
+st.sidebar.header("Settings")
 ticker = st.sidebar.text_input("Stock Ticker", value="AAPL").upper()
 period = st.sidebar.selectbox("Time Period", options=["1mo", "3mo", "6mo", "1y", "2y"], index=3)
 st.sidebar.divider()
